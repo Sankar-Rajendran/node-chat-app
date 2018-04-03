@@ -3,6 +3,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const http = require('http');
 
+const {generateMessage} = require('./utils/message');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
@@ -25,27 +26,15 @@ io.on('connection', (socket) => {
 
 
     socket.on('createMessage', (newMessage) => {
-        io.emit('newMessage', {
-            from: newMessage.from,
-            text: newMessage.text,
-            createdAt: new Date().getTime()
-        })
+        io.emit('newMessage',generateMessage(newMessage.from,newMessage.text))
         console.log('newMessage', newMessage);
     });
 
     //Greeding individual user
-    socket.emit('newMessage',{
-        from:'Admin',
-        text:'Welcome to this chat room'
-    });
+    socket.emit('newMessage', generateMessage('Admin','Welcome to this chat room'));
 
     //Broadcase to all
-    socket.broadcast.emit('newMessage',{ 
-        from:'Admin',
-        text:'New user joined'
-    });
-
-
+    socket.broadcast.emit('newMessage',generateMessage('Admin','New user joined'));
 
 });
 
