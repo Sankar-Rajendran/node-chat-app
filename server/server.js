@@ -19,14 +19,17 @@ io.on('connection', (socket) => {
         console.log('Client disconnected');
     });
 
-    socket.emit('newMessage', {
-        from: 'sankar',
-        text: 'Hey!!',
-        createdAt: new Date()
-    });
+
+    //Socket.emit - will emit to one connection
+    //io.emit - will emit to all the connections- broadcasting
 
 
     socket.on('createMessage', (newMessage) => {
+        io.emit('newMessage', {
+            from: newMessage.from,
+            text: newMessage.text,
+            createdAt: new Date().getTime()
+        })
         console.log('newMessage', newMessage);
     })
 
