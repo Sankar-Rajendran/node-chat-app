@@ -12,6 +12,7 @@ socket.on('disconnect', () => {
 
 
 socket.on('newMessage', (message) => {
-    console.log("from:" + message.from)
-    console.log('message came');
-})
+    console.log("from:" + message.from);
+    console.log("from:" + message.text);
+});
+

@@ -31,7 +31,21 @@ io.on('connection', (socket) => {
             createdAt: new Date().getTime()
         })
         console.log('newMessage', newMessage);
-    })
+    });
+
+    //Greeding individual user
+    socket.emit('newMessage',{
+        from:'Admin',
+        text:'Welcome to this chat room'
+    });
+
+    //Broadcase to all
+    socket.broadcast.emit('newMessage',{ 
+        from:'Admin',
+        text:'New user joined'
+    });
+
+
 
 });
 
